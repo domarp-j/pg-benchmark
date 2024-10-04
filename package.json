@@ -6,13 +6,13 @@
     "start": "bun run src/index.ts"
   },
   "devDependencies": {
-    "@types/bun": "^1.1.10"
+    "@types/bun": "^1.1.10",
+    "@types/pg": "^8.11.10"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@types/pg": "^8.11.10",
     "pg": "^8.13.0"
   }
 }

@@ -1,21 +1,31 @@
 services:
   db:
     image: postgres
-    restart: always
     environment:
-      POSTGRES_PASSWORD: testing
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
       - 5432:5432
+    restart: always
 
   app:
     build: .
-    restart: always
-    ports:
-      - 3000:3000
+    environment:
+      - POSTGRES_HOST=db # should match the database service name
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PORT=5432
     volumes:
       - .:/app
+    ports:
+      - 3000:3000
+    restart: always
+    depends_on:
+      - db
 
 volumes:
   pgdata:

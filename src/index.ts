@@ -1,8 +1,16 @@
-const server = Bun.serve({
-  port: 3000,
-  fetch(req) {
-    return new Response("Bun!");
-  },
-});
+import { pool } from "./db";
 
-console.log(`Listening on http://localhost:${server.port} ...`);
+async function main() {
+  const client = await pool.connect();
+  try {
+    const result = await client.query("SELECT NOW()");
+    console.log(result.rows[0].now);
+    return new Response("Bun!");
+  } catch (err) {
+    return new Response("Broken!", { status: 500 });
+  } finally {
+    client.release();
+  }
+}
+
+main();
