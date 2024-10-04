@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: testing
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  app:
+    build: .
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+
+volumes:
+  pgdata:
