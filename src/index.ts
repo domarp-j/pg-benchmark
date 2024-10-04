@@ -1,16 +1,21 @@
-import { pool } from "./db";
+import db from "./db";
+import { Asset, Inspection } from "./models";
+import populateDb from "./scripts/populate-db";
+
+const ASSET_COUNT = 500000;
+const MAX_INSPECTION_COUNT = 5;
 
 async function main() {
-  const client = await pool.connect();
-  try {
-    const result = await client.query("SELECT NOW()");
-    console.log(result.rows[0].now);
-    return new Response("Bun!");
-  } catch (err) {
-    return new Response("Broken!", { status: 500 });
-  } finally {
-    client.release();
-  }
+  await db.authenticate();
+
+  // await populateDb({ // NOTE: Enable with caution!
+  //   assetCount: ASSET_COUNT,
+  //   maxInspectionCount: MAX_INSPECTION_COUNT,
+  //   // clearDb: true, // NOTE: Enable with caution!
+  // });
+
+  console.log(await Asset.count());
+  console.log(await Inspection.count());
 }
 
 main();

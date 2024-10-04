@@ -1,11 +1,10 @@
-import { Pool } from "pg";
+import { Sequelize } from "sequelize";
 
-const pool = new Pool({
-  database: process.env.POSTGRES_DB,
-  host: process.env.POSTGRES_HOST,
-  password: process.env.POSTGRES_PASSWORD,
-  user: process.env.POSTGRES_USER,
-  port: parseInt(process.env.POSTGRES_PORT || "5432"),
-});
+const db = new Sequelize(
+  `postgres://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@${process.env.POSTGRES_HOST}:${process.env.POSTGRES_PORT}/${process.env.POSTGRES_DB}`,
+  {
+    logging: false,
+  }
+);
 
-export { pool };
+export default db;
