@@ -9,9 +9,13 @@ const Asset = db.define(
       primaryKey: true,
       autoIncrement: true,
     },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     identifier: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     psr: {
       type: DataTypes.STRING,
@@ -24,6 +28,14 @@ const Asset = db.define(
     mhn: {
       type: DataTypes.STRING,
       allowNull: true,
+    },
+    x_min: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    x_max: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
   },
   {

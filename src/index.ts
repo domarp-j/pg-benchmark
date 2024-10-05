@@ -8,7 +8,8 @@ const MAX_INSPECTION_COUNT = 5;
 async function main() {
   await db.authenticate();
 
-  // await populateDb({ // NOTE: Enable with caution!
+  // NOTE: Enable with caution!
+  // await populateDb({
   //   assetCount: ASSET_COUNT,
   //   maxInspectionCount: MAX_INSPECTION_COUNT,
   //   // clearDb: true, // NOTE: Enable with caution!

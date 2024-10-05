@@ -17,6 +17,10 @@ const Inspection = db.define(
         key: "id",
       },
     },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     psr: {
       type: DataTypes.STRING,
       allowNull: true,
