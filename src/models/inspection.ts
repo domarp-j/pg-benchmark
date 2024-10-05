@@ -33,6 +33,10 @@ const Inspection = db.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    length_surveyed: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
   },
   {
     indexes: [
