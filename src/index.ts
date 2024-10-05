@@ -1,6 +1,6 @@
 import db from "./db";
-import { Asset, Inspection } from "./models";
 import populateDb from "./scripts/populate-db";
+import benchmark from "./scripts/benchmark";
 
 const ASSET_COUNT = 500000;
 const MAX_INSPECTION_COUNT = 5;
@@ -15,8 +15,7 @@ async function main() {
   //   // clearDb: true, // NOTE: Enable with caution!
   // });
 
-  console.log(await Asset.count());
-  console.log(await Inspection.count());
+  await benchmark();
 }
 
 main();
