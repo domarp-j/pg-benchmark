@@ -1,15 +1,12 @@
 # pg-benchmark
 
-To install dependencies:
+An experiment to analyze the efficiency of SELECT queries based on various JOIN conditions.
 
-```bash
-bun install
-```
-
-To run:
-
-```bash
-bun run start
-```
-
-This project was created using `bun init` in bun v1.1.29. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+To run the experiment:
+- `bun init`
+- Run Docker
+- Update `src/index.ts`.
+  - Populate the database with dummy data
+  - Run benchmarks on SELECT queries against the data
+  - Conduct basic analysis (averages, medians, p90s) of the benchmark results
+- Run `docker-compose up`
