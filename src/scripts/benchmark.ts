@@ -1,4 +1,4 @@
-import db from "../db";
+import db, { benchmarkWriter, SQL_TIMEOUT } from "../db";
 
 const inspectionQueries = {
   byId: () =>
@@ -70,8 +70,53 @@ const assetQueries = {
     `),
 };
 
-async function benchmark() {
-  const [results, metadata] = await inspectionQueries.byId();
+async function runBenchmark({
+  name,
+  query,
+}: {
+  name: string;
+  query: () => Promise<[unknown[], unknown]>;
+}) {
+  benchmarkWriter.write(`${name},`);
+  try {
+    await query();
+  } catch (err) {
+    benchmarkWriter.write(`${SQL_TIMEOUT}s-timeout,\n`);
+  }
+}
+
+async function benchmark({ runs }: { runs: number }) {
+  for (let i = 0; i < runs; i++) {
+    await runBenchmark({
+      name: "inspection-query-by-id",
+      query: inspectionQueries.byId,
+    });
+
+    await runBenchmark({
+      name: "inspection-query-by-identifier",
+      query: inspectionQueries.byIdentifier,
+    });
+
+    await runBenchmark({
+      name: "inspection-query-by-explicit-identifier",
+      query: inspectionQueries.byExplicitIdentifier,
+    });
+
+    await runBenchmark({
+      name: "asset-query-by-id",
+      query: assetQueries.byId,
+    });
+
+    await runBenchmark({
+      name: "asset-query-by-identifier",
+      query: assetQueries.byIdentifier,
+    });
+
+    await runBenchmark({
+      name: "asset-query-by-explicit-identifier",
+      query: assetQueries.byExplicitIdentifier,
+    });
+  }
 }
 
 export default benchmark;

@@ -4,6 +4,7 @@ import benchmark from "./scripts/benchmark";
 
 const ASSET_COUNT = 500000;
 const MAX_INSPECTION_COUNT = 5;
+const BENCHMARK_QUERY_RUNS = 50;
 
 async function main() {
   await db.authenticate();
@@ -15,7 +16,7 @@ async function main() {
   //   // clearDb: true, // NOTE: Enable with caution!
   // });
 
-  await benchmark();
+  await benchmark({ runs: BENCHMARK_QUERY_RUNS });
 }
 
 main();
