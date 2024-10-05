@@ -52,6 +52,28 @@ AVERAGE (ms): N/A (too slow)
 MEDIAN (ms): N/A (too slow)
 90TH PERCENTILE (ms): N/a (too slow)
 -----------------------------------
+QUERY: inspection-query-by-union
+          SELECT inspections.id as inspection_id, assets.id as asset_id
+          FROM inspections
+          LEFT JOIN assets
+          ON assets.psr = inspections.psr
+          WHERE assets.x_max - assets.x_min > 50
+          UNION ALL
+          SELECT inspections.id as inspection_id, assets.id as asset_id
+          FROM inspections
+          LEFT JOIN assets
+          ON assets.lsr = inspections.lsr
+          WHERE assets.x_max - assets.x_min > 50
+          UNION ALL
+          SELECT inspections.id as inspection_id, assets.id as asset_id
+          FROM inspections
+          LEFT JOIN assets
+          ON assets.mhn = inspections.mhn
+          WHERE assets.x_max - assets.x_min > 50;
+AVERAGE (ms): 790.5
+MEDIAN (ms): 748
+90TH PERCENTILE (ms): 1077
+-----------------------------------
 QUERY: asset-query-by-id
           SELECT assets.id as asset_id, inspections.id as inspection_id
           FROM assets
@@ -89,6 +111,25 @@ QUERY: asset-query-by-explicit-identifier
 AVERAGE (ms): N/A (too slow)
 MEDIAN (ms): N/A (too slow)
 90TH PERCENTILE (ms): N/a (too slow)
+-----------------------------------
+QUERY: asset-query-by-union
+          SELECT assets.id as asset_id, inspections.id as inspection_id
+          FROM assets
+          LEFT JOIN inspections ON assets.psr = inspections.psr
+          WHERE inspections.length_surveyed >= 150
+          UNION ALL
+          SELECT assets.id as asset_id, inspections.id as inspection_id
+          FROM assets
+          LEFT JOIN inspections ON assets.lsr = inspections.lsr
+          WHERE inspections.length_surveyed >= 150
+          UNION ALL
+          SELECT assets.id as asset_id, inspections.id as inspection_id
+          FROM assets
+          LEFT JOIN inspections ON assets.mhn = inspections.mhn
+          WHERE inspections.length_surveyed >= 150;
+AVERAGE (ms): 780.44
+MEDIAN (ms): 737
+90TH PERCENTILE (ms): 1046
 ```
 
 The `*-query-by-explicit-identifier` queries always timed out (10s).

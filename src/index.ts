@@ -17,7 +17,7 @@ async function main() {
   //   // clearDb: true, // NOTE: Enable with caution!
   // });
 
-  // await benchmark({ runs: QUERY_EXECUTION_COUNT });
+  await benchmark({ runs: QUERY_EXECUTION_COUNT });
 
   await analyzeBenchmark();
 }

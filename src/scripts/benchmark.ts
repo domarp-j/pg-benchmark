@@ -28,7 +28,6 @@ async function benchmark({ runs }: { runs: number }) {
           WHERE assets.x_max - assets.x_min > 50;
         `),
     });
-
     await runBenchmark({
       name: "inspection-query-by-identifier",
       query: () =>
@@ -44,7 +43,6 @@ async function benchmark({ runs }: { runs: number }) {
           WHERE assets.x_max - assets.x_min > 50;
         `),
     });
-
     await runBenchmark({
       name: "inspection-query-by-explicit-identifier",
       query: () =>
@@ -60,7 +58,29 @@ async function benchmark({ runs }: { runs: number }) {
           WHERE assets.x_max - assets.x_min > 50;
         `),
     });
-
+    await runBenchmark({
+      name: "inspection-query-by-union",
+      query: () =>
+        db.query(`
+          SELECT inspections.id as inspection_id, assets.id as asset_id
+          FROM inspections
+          LEFT JOIN assets
+          ON assets.psr = inspections.psr
+          WHERE assets.x_max - assets.x_min > 50
+          UNION ALL
+          SELECT inspections.id as inspection_id, assets.id as asset_id
+          FROM inspections
+          LEFT JOIN assets
+          ON assets.lsr = inspections.lsr
+          WHERE assets.x_max - assets.x_min > 50
+          UNION ALL
+          SELECT inspections.id as inspection_id, assets.id as asset_id
+          FROM inspections
+          LEFT JOIN assets
+          ON assets.mhn = inspections.mhn
+          WHERE assets.x_max - assets.x_min > 50;
+        `),
+    });
     await runBenchmark({
       name: "asset-query-by-id",
       query: () =>
@@ -70,9 +90,8 @@ async function benchmark({ runs }: { runs: number }) {
           LEFT JOIN inspections
           ON assets.id = inspections.asset_id
           WHERE inspections.length_surveyed >= 150;
-    `),
+        `),
     });
-
     await runBenchmark({
       name: "asset-query-by-identifier",
       query: () =>
@@ -88,7 +107,6 @@ async function benchmark({ runs }: { runs: number }) {
           WHERE inspections.length_surveyed >= 150;
     `),
     });
-
     await runBenchmark({
       name: "asset-query-by-explicit-identifier",
       query: () =>
@@ -101,6 +119,26 @@ async function benchmark({ runs }: { runs: number }) {
             OR assets.lsr = inspections.lsr
             OR assets.mhn = inspections.mhn
           )
+          WHERE inspections.length_surveyed >= 150;
+        `),
+    });
+    await runBenchmark({
+      name: "asset-query-by-union",
+      query: () =>
+        db.query(`
+          SELECT assets.id as asset_id, inspections.id as inspection_id
+          FROM assets
+          LEFT JOIN inspections ON assets.psr = inspections.psr
+          WHERE inspections.length_surveyed >= 150
+          UNION ALL
+          SELECT assets.id as asset_id, inspections.id as inspection_id
+          FROM assets
+          LEFT JOIN inspections ON assets.lsr = inspections.lsr
+          WHERE inspections.length_surveyed >= 150
+          UNION ALL
+          SELECT assets.id as asset_id, inspections.id as inspection_id
+          FROM assets
+          LEFT JOIN inspections ON assets.mhn = inspections.mhn
           WHERE inspections.length_surveyed >= 150;
         `),
     });
