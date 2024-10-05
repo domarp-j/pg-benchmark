@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize";
 
 export const SQL_TIMEOUT = 10; // seconds
 
-const benchmarkFile = Bun.file("./benchmark.csv");
+export const benchmarkFile = Bun.file("./benchmark.csv");
 export const benchmarkWriter = benchmarkFile.writer();
 
 const db = new Sequelize(
