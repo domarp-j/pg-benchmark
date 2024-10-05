@@ -13,6 +13,9 @@ To run the experiment:
 
 Results:
 ```
+ASSETS: 500000
+INSPECTIONS: ~1500000
+QUERY EXECUTIONS: 50
 -----------------------------------
 QUERY: inspection-query-by-id
           SELECT inspections.id as inspection_id, assets.id as asset_id
@@ -50,7 +53,7 @@ QUERY: inspection-query-by-explicit-identifier
           WHERE assets.x_max - assets.x_min > 50;
 AVERAGE (ms): N/A (too slow)
 MEDIAN (ms): N/A (too slow)
-90TH PERCENTILE (ms): N/a (too slow)
+90TH PERCENTILE (ms): N/A (too slow)
 -----------------------------------
 QUERY: inspection-query-by-union
           SELECT inspections.id as inspection_id, assets.id as asset_id
@@ -110,7 +113,7 @@ QUERY: asset-query-by-explicit-identifier
           WHERE inspections.length_surveyed >= 150;
 AVERAGE (ms): N/A (too slow)
 MEDIAN (ms): N/A (too slow)
-90TH PERCENTILE (ms): N/a (too slow)
+90TH PERCENTILE (ms): N/A (too slow)
 -----------------------------------
 QUERY: asset-query-by-union
           SELECT assets.id as asset_id, inspections.id as inspection_id

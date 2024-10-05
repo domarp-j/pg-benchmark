@@ -105,7 +105,7 @@ async function benchmark({ runs }: { runs: number }) {
             OR assets.identifier = inspections.mhn
           )
           WHERE inspections.length_surveyed >= 150;
-    `),
+        `),
     });
     await runBenchmark({
       name: "asset-query-by-explicit-identifier",
