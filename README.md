@@ -13,6 +13,9 @@ To run the experiment:
 
 Results:
 ```
+ASSETS: 500000
+INSPECTIONS: ~1500000
+QUERY EXECUTIONS: 50
 -----------------------------------
 QUERY: inspection-query-by-id
           SELECT inspections.id as inspection_id, assets.id as asset_id
